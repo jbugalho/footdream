@@ -19,3 +19,12 @@ Toda a nossa base de dados e Website encontram se hosteados um serviço chamado 
 A nossa aplicação foi desenvolvida em Android Studio utilizando a linguagem Java.
 Enquanto que o nosso website foi desenvolvido utilizando HTML e CSS e PHP para pudermos integrar com a nossa base de dados.
 
+## Progresso da Aplicação
+
+ - [ ] Base de dados
+ - [ ] Aplicação e WebSite ligados à BD
+ - [ ] Registo e Login de Utilizadores
+ - [ ] Criação de Eventos
+ - [ ] Confirmação nos Eventos
+
+
