@@ -21,8 +21,8 @@ Enquanto que o nosso website foi desenvolvido utilizando HTML e CSS e PHP para p
 
 ## Progresso da Aplicação
 
- - [ ] Base de dados
- - [ ] Aplicação e WebSite ligados à BD
+ - [x] Base de dados
+ - [x] Aplicação e WebSite ligados à BD
  - [ ] Registo e Login de Utilizadores
  - [ ] Criação de Eventos
  - [ ] Confirmação nos Eventos
