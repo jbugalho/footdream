@@ -44,16 +44,16 @@ public class GalleryFragment extends Fragment {
 
 
         Button inserir = root.findViewById(R.id.buttonInsert);
-        final EditText nameInsert = root.findViewById(R.id.nameInsert);
+        final EditText nomeClube = root.findViewById(R.id.nomeClube);
         final  EditText emailInsert = root.findViewById(R.id.emailInsert);
+        final EditText password =  root.findViewById(R.id.passowordInsert);
+
 
         inserir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.WRITE,
-                        "INSERT INTO Clubes (nome_clube) VALUES ('" + nameInsert.getText()+"')");
+                        "INSERT INTO Clubes (nome_clube,email,password) VALUES ('" + nomeClube.getText()+"','" + emailInsert.getText() + "','" + password.getText() + "')");
 
                 queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
                     @Override
