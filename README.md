@@ -3,10 +3,10 @@
 Este projecto foi desenvolvido no âmbito do curso de Desenvolvimento de  Dispositivos Móveis no Instituto Superior de Tecnologias Avançadas de Lisboa.
 
 Desenvolvido por:
-João Bugalho
-Bruno Galão
-Rafael Pinto
-Rúben Pacheco
+- João Bugalho
+- Bruno Galão
+- Rafael Pinto
+- Rúben Pacheco
 
 ## Como Surgiu?
 
