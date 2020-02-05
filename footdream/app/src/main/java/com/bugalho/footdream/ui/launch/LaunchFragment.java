@@ -1,5 +1,8 @@
 package com.bugalho.footdream.ui.launch;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -20,8 +23,10 @@ import android.widget.TextView;
 import com.bugalho.footdream.Helper.DatabaseBuilder;
 import com.bugalho.footdream.Helper.OnDatabaseBuilderQueryExecuteListener;
 import com.bugalho.footdream.Helper.QueryMode;
+import com.bugalho.footdream.Launch;
 import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
+import com.bugalho.footdream.ui.register.RegisterFragment;
 import com.bugalho.footdream.ui.register.RegisterViewModel;
 
 import java.sql.ResultSet;
@@ -40,7 +45,7 @@ public class LaunchFragment extends Fragment {
     private EditText email;
     private EditText passwordUsada;
     private TextView texto;
-
+    private Button registar;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -53,6 +58,15 @@ public class LaunchFragment extends Fragment {
         email = root.findViewById(R.id.email);
         passwordUsada = root.findViewById(R.id.password);
         texto = root.findViewById(R.id.message);
+        registar = root.findViewById(R.id.register);
+
+        registar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new RegisterFragment()).commit();
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,7 +10,7 @@ import com.bugalho.footdream.ui.register.RegisterFragment;
 public class Launch extends AppCompatActivity {
 
 
-    private boolean register = false;
+    public boolean register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
