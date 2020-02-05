@@ -5,7 +5,8 @@
     android:id="@+id/launch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.launch.LaunchFragment">
+    tools:context=".ui.launch.LaunchFragment"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
     <TextView
         android:id="@+id/message"
