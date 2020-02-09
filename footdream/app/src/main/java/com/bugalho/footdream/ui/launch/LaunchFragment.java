@@ -28,6 +28,7 @@ import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
 import com.bugalho.footdream.ui.register.RegisterFragment;
 import com.bugalho.footdream.ui.register.RegisterViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,6 +47,8 @@ public class LaunchFragment extends Fragment {
     private EditText passwordUsada;
     private TextView texto;
     private Button registar;
+    private TextInputLayout emailLayout;
+    private TextInputLayout passwordLayout;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -59,6 +62,8 @@ public class LaunchFragment extends Fragment {
         passwordUsada = root.findViewById(R.id.password);
         texto = root.findViewById(R.id.message);
         registar = root.findViewById(R.id.register);
+        emailLayout = root.findViewById(R.id.LayoutEmail);
+        passwordLayout = root.findViewById(R.id.LayoutPassword);
 
         registar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -71,41 +76,47 @@ public class LaunchFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Clubes WHERE email='" + email.getText() + "' and password='" + passwordUsada.getText() + "';");
-                Log.d("onClick", "onClick: teste");
-                queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
-                    @Override
-                    public void OnGetResultHandler(Object rs){
-                        ResultSet resultSet = (ResultSet) rs;
+                clubeLogin();
 
-                        while (true) {
-                            try {
-                                if (!resultSet.next()){
-                                    texto.setText("E-mail ou password inválidos");
-                                    break;
-                                }
-
-                                if(resultSet.getString("password").equals(passwordUsada.getText().toString())){
-                                    texto.setText("Login Correto");
-                                    Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
-
-                                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                    break;
-                                }
-
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }
-
-                });
 
             }
         });
         return root;
+    }
+
+    private void clubeLogin(){
+        DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Clubes WHERE email='" + email.getText() + "' and password='" + passwordUsada.getText() + "';");
+        Log.d("onClick", "onClick: teste");
+        queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
+            @Override
+            public void OnGetResultHandler(Object rs){
+                ResultSet resultSet = (ResultSet) rs;
+
+                while (true) {
+                    try {
+                        if (!resultSet.next()){
+
+                            emailLayout.setError("E-mail ou Password errados!");
+                            passwordLayout.setError("E-mail ou Password errados!");
+                            break;
+                        }
+
+                        if(resultSet.getString("password").equals(passwordUsada.getText().toString())){
+                            Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            break;
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        });
+
     }
 }
