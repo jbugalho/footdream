@@ -20,12 +20,14 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bugalho.footdream.Helper.DatabaseBuilder;
 import com.bugalho.footdream.Helper.OnDatabaseBuilderQueryExecuteListener;
 import com.bugalho.footdream.Helper.QueryMode;
+import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
+import com.bugalho.footdream.User;
+import com.bugalho.footdream.UserType;
 
 public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -34,37 +36,15 @@ public class GalleryFragment extends Fragment {
 
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+        EditText teste = root.findViewById(R.id.nomeClube);
+        EditText teste1 = root.findViewById(R.id.emailInsert);
+        teste.setText(MainActivity.userLogado.getNome());
+        teste1.setText(MainActivity.userLogado.getUserType().toString());
 
 
-        Button inserir = root.findViewById(R.id.buttonInsert);
-        final EditText nomeClube = root.findViewById(R.id.nomeClube);
-        final  EditText emailInsert = root.findViewById(R.id.emailInsert);
-        final EditText password =  root.findViewById(R.id.passowordInsert);
 
 
-        inserir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.WRITE,
-                        "INSERT INTO Clubes (nome_clube,email,password) VALUES ('" + nomeClube.getText()+"','" + emailInsert.getText() + "','" + password.getText() + "')");
-
-                queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
-                    @Override
-                    public void OnGetResultHandler(Object resultSet) {
-                        Integer rowsAffected = (Integer) resultSet;
-                        if(rowsAffected > 0) Log.d("user_add", "utilizador adicionado com sucesso");
-                    }
-                });
-
-            }
-        });
         return root;
     }
 }

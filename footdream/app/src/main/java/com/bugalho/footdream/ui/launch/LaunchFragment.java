@@ -13,12 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bugalho.footdream.Helper.DatabaseBuilder;
@@ -28,6 +31,8 @@ import com.bugalho.footdream.Launch;
 import com.bugalho.footdream.LoadingDialog;
 import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
+import com.bugalho.footdream.User;
+import com.bugalho.footdream.UserType;
 import com.bugalho.footdream.ui.register.RegisterFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -36,7 +41,7 @@ import java.sql.SQLException;
 
 import javax.xml.transform.Result;
 
-public class LaunchFragment extends Fragment {
+public class LaunchFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private LaunchViewModel launchViewModel;
 
@@ -51,6 +56,8 @@ public class LaunchFragment extends Fragment {
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
     private LoadingDialog loadingDialog;
+    private Spinner spinner;
+    private String selecionado;
 
     @Nullable
     @Override
@@ -68,6 +75,9 @@ public class LaunchFragment extends Fragment {
         emailLayout = root.findViewById(R.id.LayoutEmail);
         passwordLayout = root.findViewById(R.id.LayoutPassword);
         loadingDialog = new LoadingDialog(getActivity());
+        spinner = root.findViewById(R.id.spinner);
+
+        spinner.setOnItemSelectedListener(this);
 
 
         registar.setOnClickListener(new View.OnClickListener(){
@@ -80,9 +90,11 @@ public class LaunchFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clubeLogin();
-
-
+                switch(selecionado){
+                    case "Clube": clubeLogin(); break;
+                    case "Jogador": jogadorLogin(); break;
+                    case "Treinador": treinadorLogin(); break;
+                }
             }
         });
         return root;
@@ -109,6 +121,10 @@ public class LaunchFragment extends Fragment {
                         if(resultSet.getString("password").equals(passwordUsada.getText().toString())){
                             Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
                             Intent intent = new Intent(getActivity(), MainActivity.class);
+                            intent.putExtra("tipo",UserType.Clube);
+                            intent.putExtra("nome", resultSet.getString("nome_clube"));
+                            intent.putExtra("descricao", resultSet.getString("descricao"));
+
                             startActivity(intent);
                             getActivity().finish();
                             break;
@@ -122,6 +138,98 @@ public class LaunchFragment extends Fragment {
             }
 
         });
+
+    }
+
+    private void jogadorLogin(){
+        loadingDialog.startLoadingAnimation();
+        DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Jogadores WHERE email='" + email.getText() + "' and password='" + passwordUsada.getText() + "';");
+        Log.d("onClick", "onClick: teste");
+        queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
+            @Override
+            public void OnGetResultHandler(Object rs){
+                ResultSet resultSet = (ResultSet) rs;
+
+                while (true) {
+                    try {
+                        if (!resultSet.next()){
+                            loadingDialog.dismissDialog();
+                            emailLayout.setError("E-mail ou Password errados!");
+                            passwordLayout.setError("E-mail ou Password errados!");
+                            break;
+                        }
+
+                        if(resultSet.getString("password").equals(passwordUsada.getText().toString())){
+                            Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            intent.putExtra("tipo",UserType.Jogador);
+                            intent.putExtra("nome", resultSet.getString("nome_jogador"));
+                            intent.putExtra("descricao", resultSet.getString("descricao"));
+
+                            startActivity(intent);
+                            getActivity().finish();
+                            break;
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        });
+
+    }
+
+    private void treinadorLogin(){
+        loadingDialog.startLoadingAnimation();
+        DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Treinadores WHERE email='" + email.getText() + "' and password='" + passwordUsada.getText() + "';");
+        Log.d("onClick", "onClick: teste");
+        queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
+            @Override
+            public void OnGetResultHandler(Object rs){
+                ResultSet resultSet = (ResultSet) rs;
+
+                while (true) {
+                    try {
+                        if (!resultSet.next()){
+                            loadingDialog.dismissDialog();
+                            emailLayout.setError("E-mail ou Password errados!");
+                            passwordLayout.setError("E-mail ou Password errados!");
+                            break;
+                        }
+
+                        if(resultSet.getString("password").equals(passwordUsada.getText().toString())){
+                            Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            intent.putExtra("tipo",UserType.Treinador);
+                            intent.putExtra("nome", resultSet.getString("nome_treinador"));
+                            intent.putExtra("descricao", resultSet.getString("descricao"));
+
+                            startActivity(intent);
+                            getActivity().finish();
+                            break;
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        });
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        selecionado = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

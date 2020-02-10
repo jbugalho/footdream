@@ -1,4 +1,4 @@
-package com.bugalho.footdream.ui;
+package com.bugalho.footdream.ui.selecttyperegister;
 
 import androidx.lifecycle.ViewModelProviders;
 
