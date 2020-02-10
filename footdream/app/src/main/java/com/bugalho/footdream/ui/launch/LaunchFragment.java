@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import com.bugalho.footdream.Helper.DatabaseBuilder;
 import com.bugalho.footdream.Helper.OnDatabaseBuilderQueryExecuteListener;
 import com.bugalho.footdream.Helper.QueryMode;
 import com.bugalho.footdream.Launch;
+import com.bugalho.footdream.LoadingDialog;
 import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
 import com.bugalho.footdream.ui.register.RegisterFragment;
@@ -49,6 +51,8 @@ public class LaunchFragment extends Fragment {
     private Button registar;
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
+    private LoadingDialog loadingDialog;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -64,6 +68,8 @@ public class LaunchFragment extends Fragment {
         registar = root.findViewById(R.id.register);
         emailLayout = root.findViewById(R.id.LayoutEmail);
         passwordLayout = root.findViewById(R.id.LayoutPassword);
+        loadingDialog = new LoadingDialog(getActivity());
+
 
         registar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -85,6 +91,7 @@ public class LaunchFragment extends Fragment {
     }
 
     private void clubeLogin(){
+        loadingDialog.startLoadingAnimation();
         DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Clubes WHERE email='" + email.getText() + "' and password='" + passwordUsada.getText() + "';");
         Log.d("onClick", "onClick: teste");
         queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
@@ -95,7 +102,7 @@ public class LaunchFragment extends Fragment {
                 while (true) {
                     try {
                         if (!resultSet.next()){
-
+                            loadingDialog.dismissDialog();
                             emailLayout.setError("E-mail ou Password errados!");
                             passwordLayout.setError("E-mail ou Password errados!");
                             break;
