@@ -5,4 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.SelectTypeRegister"
-    android:background="@mipmap/teste_foreground"/>
+    android:background="@mipmap/hazard"/>

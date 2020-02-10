@@ -29,7 +29,6 @@ import com.bugalho.footdream.LoadingDialog;
 import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
 import com.bugalho.footdream.ui.register.RegisterFragment;
-import com.bugalho.footdream.ui.register.RegisterViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.sql.ResultSet;
@@ -74,8 +73,7 @@ public class LaunchFragment extends Fragment {
         registar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new RegisterFragment()).commit();
+                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.container, new RegisterFragment()).commit();
             }
         });
 
