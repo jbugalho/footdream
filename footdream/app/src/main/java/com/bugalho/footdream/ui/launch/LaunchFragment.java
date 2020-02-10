@@ -73,7 +73,7 @@ public class LaunchFragment extends Fragment {
         registar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                ((AppCompatActivity) view.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.container, new RegisterFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new RegisterFragment()).commit();
             }
         });
 
