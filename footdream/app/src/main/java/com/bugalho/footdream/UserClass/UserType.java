@@ -1,4 +1,4 @@
-package com.bugalho.footdream;
+package com.bugalho.footdream.UserClass;
 
 public enum UserType {
     Clube,

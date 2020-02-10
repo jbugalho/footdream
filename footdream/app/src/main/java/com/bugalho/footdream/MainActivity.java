@@ -3,6 +3,8 @@ package com.bugalho.footdream;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bugalho.footdream.UserClass.User;
+import com.bugalho.footdream.UserClass.UserType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 

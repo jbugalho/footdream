@@ -1,4 +1,6 @@
-package com.bugalho.footdream;
+package com.bugalho.footdream.UserClass;
+
+import com.bugalho.footdream.UserClass.UserType;
 
 public class User {
 

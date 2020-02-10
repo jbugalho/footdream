@@ -1,11 +1,7 @@
 package com.bugalho.footdream.ui.launch;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,19 +23,15 @@ import android.widget.Toast;
 import com.bugalho.footdream.Helper.DatabaseBuilder;
 import com.bugalho.footdream.Helper.OnDatabaseBuilderQueryExecuteListener;
 import com.bugalho.footdream.Helper.QueryMode;
-import com.bugalho.footdream.Launch;
 import com.bugalho.footdream.LoadingDialog;
 import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
-import com.bugalho.footdream.User;
-import com.bugalho.footdream.UserType;
+import com.bugalho.footdream.UserClass.UserType;
 import com.bugalho.footdream.ui.register.RegisterFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.xml.transform.Result;
 
 public class LaunchFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 

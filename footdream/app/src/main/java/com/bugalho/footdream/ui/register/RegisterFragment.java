@@ -2,6 +2,7 @@ package com.bugalho.footdream.ui.register;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,9 @@ import com.bugalho.footdream.Helper.DatabaseBuilder;
 import com.bugalho.footdream.Helper.OnDatabaseBuilderQueryExecuteListener;
 import com.bugalho.footdream.Helper.QueryMode;
 import com.bugalho.footdream.R;
+import com.bugalho.footdream.RegisterActivities.ClubeRegister;
+import com.bugalho.footdream.RegisterActivities.JogadorRegister;
+import com.bugalho.footdream.RegisterActivities.TreinadorRegister;
 
 public class RegisterFragment extends Fragment {
 
@@ -34,38 +38,36 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        View root = inflater.inflate(R.layout.register_fragment, container, false);
 
-        Button inserir = root.findViewById(R.id.buttonInsert);
-        final EditText nomeClube = root.findViewById(R.id.nomeClube);
-        final EditText emailInsert = root.findViewById(R.id.emailInsert);
-        final EditText password = root.findViewById(R.id.passowordInsert);
+        Button treinador = root.findViewById(R.id.Treinador);
+        Button jogador = root.findViewById(R.id.Jogador);
+        Button clube = root.findViewById(R.id.Clube);
 
-        inserir.setOnClickListener(new View.OnClickListener() {
+        treinador.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.WRITE,
-                        "INSERT INTO Clubes (nome_clube,email,password) VALUES ('" + nomeClube.getText() + "','" + emailInsert.getText() + "','" + password.getText() + "')");
-
-                queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
-                    @Override
-                    public void OnGetResultHandler(Object resultSet) {
-                        Integer rowsAffected = (Integer) resultSet;
-                        if (rowsAffected > 0)
-                            Log.d("user_add", "utilizador adicionado com sucesso");
-                    }
-                });
-
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TreinadorRegister.class);
+                startActivity(intent);
             }
         });
+        jogador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), JogadorRegister.class);
+                startActivity(intent);
+            }
+        });
+        clube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ClubeRegister.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+
         return root;
     }
-/*
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
-        // TODO: Use the ViewModel
-    }*/
-
 }
