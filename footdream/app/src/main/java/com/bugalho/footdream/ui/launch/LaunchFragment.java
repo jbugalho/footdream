@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bugalho.footdream.Helper.DatabaseBuilder;
 import com.bugalho.footdream.Helper.OnDatabaseBuilderQueryExecuteListener;
@@ -94,6 +95,8 @@ public class LaunchFragment extends Fragment implements AdapterView.OnItemSelect
                     case "Clube": clubeLogin(); break;
                     case "Jogador": jogadorLogin(); break;
                     case "Treinador": treinadorLogin(); break;
+                    default:
+                        Toast.makeText(getContext(), "Selecione um tipo de Login",Toast.LENGTH_LONG).show();
                 }
             }
         });
