@@ -9,6 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="300dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nome do Clube"
+            android:visibility="visible"
             app:boxBackgroundColor="#FFFF"
             app:errorEnabled="true">
 
@@ -72,7 +75,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/bg_button_white"
         android:text="Registar"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

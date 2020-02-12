@@ -17,6 +17,9 @@ import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
 import com.bugalho.footdream.UserClass.UserType;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class ClubeRegister extends AppCompatActivity {
 
     private Button inserir;
@@ -24,6 +27,8 @@ public class ClubeRegister extends AppCompatActivity {
     private EditText emailInsert;
     private EditText password;
     private LoadingDialog loadingDialog;
+    public boolean errorEmail = false;
+    public boolean errorNome = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,33 +45,102 @@ public class ClubeRegister extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadingDialog.startLoadingAnimation();
-                DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.WRITE,
-                        "INSERT INTO Clubes (nome_clube,email,password) VALUES ('" + nomeClube.getText() + "','" + emailInsert.getText() + "','" + password.getText() + "')");
 
+                DatabaseBuilder verificarEmail = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Clubes WHERE email='" + emailInsert.getText() + "'");
 
-                queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
-                    @Override
-                    public void OnGetResultHandler(Object resultSet) {
-                        Integer rowsAffected = (Integer) resultSet;
+                verificarEmail.execute(new OnDatabaseBuilderQueryExecuteListener() {
+                        @Override
+                        public void OnGetResultHandler(Object rs) {
+                            Log.d("verificaremial", "OnGetResultHandler: Verificar email");
+                            ResultSet resultSet = (ResultSet) rs;
 
-                        if (rowsAffected > 0) {
-                            Log.d("user_add", "utilizador adicionado com sucesso");
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("tipo", UserType.Clube);
-                            intent.putExtra("nome", nomeClube.getText().toString());
-                            intent.putExtra("descricao", " ");
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            nomeClube.setError("Este clube já se encontra registado");
-                            emailInsert.setError("Este clube já se encontra registado");
+                            while (true) {
+                                try {
+                                    if (resultSet.next()) {
+                                        // já existe
+                                        Log.d("Já email", "Já existe email");
+                                        errorEmail = true;
+                                        break;
+
+                                    } else {
+                                        errorEmail = false;
+                                        break;
+                                    }
+
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            DatabaseBuilder verificarNome = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Clubes WHERE nome_clube='" + nomeClube.getText() + "'");
+                            verificarNome.execute(new OnDatabaseBuilderQueryExecuteListener() {
+                                @Override
+                                public void OnGetResultHandler(Object rs) {
+                                    ResultSet resultSet = (ResultSet) rs;
+
+                                    while(true) {
+                                        try {
+                                            if (resultSet.next()) {
+                                                // já existe
+                                                Log.d("Já existe", "Já existe nome do clube");
+
+                                                errorNome = true;
+                                                break;
+
+                                            } else {
+                                                errorNome = false;
+                                                break;
+                                            }
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                    if (!errorEmail && !errorNome) insertNewClub();
+
+                                }
+                            });
+
                         }
-                    }
-                });
+                    });
+
+                /*
+
+                if (!error) {
+
+
+
+                }*/
+
+                loadingDialog.dismissDialog();
             }
         });
+    }
+
+    private void insertNewClub() {
+        DatabaseBuilder queryAllUsers = new DatabaseBuilder(QueryMode.WRITE,
+                "INSERT INTO Clubes (nome_clube,email,password) VALUES ('" + nomeClube.getText() + "','" + emailInsert.getText() + "','" + password.getText() + "')");
 
 
+        queryAllUsers.execute(new OnDatabaseBuilderQueryExecuteListener() {
+            @Override
+            public void OnGetResultHandler(Object resultSet) {
+                Integer rowsAffected = (Integer) resultSet;
 
+                if (rowsAffected > 0) {
+                    Log.d("user_add", "utilizador adicionado com sucesso");
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("tipo", UserType.Clube);
+                    intent.putExtra("nome", nomeClube.getText().toString());
+                    intent.putExtra("descricao", " ");
+                    startActivity(intent);
+                    finish();
+                } else {
+                    nomeClube.setError("Este clube já se encontra registado");
+                    emailInsert.setError("Este clube já se encontra registado");
+                }
+            }
+        });
     }
 }

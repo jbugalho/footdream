@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="212dp"
         android:text="Treinador"
+        android:background="@drawable/bg_button_white"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +27,9 @@
         android:layout_marginTop="28dp"
         android:gravity="center"
         android:text="Jogador"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/bg_button_white"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Treinador" />
@@ -37,8 +41,10 @@
         android:layout_marginTop="32dp"
         android:gravity="center"
         android:text="Clube"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
+        android:background="@drawable/bg_button_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Jogador" />
 
