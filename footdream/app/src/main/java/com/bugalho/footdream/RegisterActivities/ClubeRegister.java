@@ -41,16 +41,16 @@ public class ClubeRegister extends AppCompatActivity {
         password =  findViewById(R.id.passwordInsert);
         loadingDialog = new LoadingDialog(this);
 
+
         inserir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingDialog.startLoadingAnimation();
-
                 DatabaseBuilder verificarEmail = new DatabaseBuilder(QueryMode.READ,"SELECT * FROM Clubes WHERE email='" + emailInsert.getText() + "'");
-
                 verificarEmail.execute(new OnDatabaseBuilderQueryExecuteListener() {
                         @Override
                         public void OnGetResultHandler(Object rs) {
+
                             Log.d("verificaremial", "OnGetResultHandler: Verificar email");
                             ResultSet resultSet = (ResultSet) rs;
 
@@ -77,6 +77,7 @@ public class ClubeRegister extends AppCompatActivity {
                             verificarNome.execute(new OnDatabaseBuilderQueryExecuteListener() {
                                 @Override
                                 public void OnGetResultHandler(Object rs) {
+
                                     ResultSet resultSet = (ResultSet) rs;
 
                                     while(true) {
@@ -86,6 +87,7 @@ public class ClubeRegister extends AppCompatActivity {
                                                 Log.d("Já existe", "Já existe nome do clube");
 
                                                 errorNome = true;
+
                                                 break;
 
                                             } else {
@@ -97,23 +99,16 @@ public class ClubeRegister extends AppCompatActivity {
                                         }
 
                                     }
-                                    if (!errorEmail && !errorNome) insertNewClub();
+                                    if (!errorEmail && !errorNome)
+                                        insertNewClub();
+                                    else loadingDialog.dismissDialog();
 
                                 }
                             });
 
                         }
+
                     });
-
-                /*
-
-                if (!error) {
-
-
-
-                }*/
-
-                loadingDialog.dismissDialog();
             }
         });
     }
