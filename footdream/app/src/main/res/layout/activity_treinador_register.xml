@@ -7,6 +7,7 @@
     android:background="@mipmap/background">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -69,6 +70,21 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="357dp"
+        android:layout_height="39dp"
+
+        android:layout_marginStart="24dp"
+        android:background="#FFFFFF"
+
+        app:layout_constraintBottom_toTopOf="@+id/buttonInsert"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.125" />
 
     <Button
         android:id="@+id/buttonInsert"

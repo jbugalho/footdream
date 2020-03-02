@@ -53,6 +53,10 @@ public class QueryTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        onDatabaseBuilderQueryExecuteListener.OnGetResultHandler(result);
+        try {
+            onDatabaseBuilderQueryExecuteListener.OnGetResultHandler(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
