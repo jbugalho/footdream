@@ -125,15 +125,33 @@ public class ClubeRegister extends AppCompatActivity {
 
                 if (rowsAffected > 0) {
                     Log.d("user_add", "utilizador adicionado com sucesso");
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("tipo", UserType.Clube);
-                    intent.putExtra("nome", nomeClube.getText().toString());
-                    intent.putExtra("descricao", " ");
-                    startActivity(intent);
-                    finish();
                 } else {
                     nomeClube.setError("Este clube já se encontra registado");
                     emailInsert.setError("Este clube já se encontra registado");
+                }
+            }
+        });
+
+        DatabaseBuilder getId = new DatabaseBuilder(QueryMode.READ,"SELECT idClube FROM Clubes WHERE nome_clube='" + nomeClube.getText() + "'");
+        getId.execute(new OnDatabaseBuilderQueryExecuteListener() {
+            @Override
+            public void OnGetResultHandler(Object rs){
+                ResultSet resultSet = (ResultSet) rs;
+
+                while(true) {
+                    try {
+                        if (resultSet.next()) {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("tipo",UserType.Clube);
+                            intent.putExtra("id",resultSet.getInt("idClube"));
+                            startActivity(intent);
+                            finish();
+
+                            break;
+                        }else break;
+                    }catch (SQLException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });

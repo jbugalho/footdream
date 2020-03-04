@@ -197,21 +197,3 @@ public class GalleryFragment extends Fragment {
     }
 }
 
-/*if(bundle.getString("tipoLogin") == "Registo"){
-            switch (bundle.get("tipo").toString()){
-                case "Clube":
-                    userLogado = new User((UserType)bundle.get("tipo"),bundle.getString("nome"),bundle.getString("descricao"));
-                    break;
-
-                case "Treinador":
-                    userLogado = new User((UserType)bundle.get("tipo"),bundle.getString("nome"),bundle.getString("clube"),bundle.getString("descricao"));
-                    break;
-
-                case "Jogador":
-                    userLogado = new User((UserType)bundle.get("tipo"),bundle.getString("nome"),bundle.getString("escalao"),bundle.getString("posicao"),bundle.getString("divisao"),
-                            bundle.getString("clube"),bundle.getString("descricao"));
-                    break;
-                default:
-                    break;
-            }
-        }else if(bundle.getString("tipoLogin").toString().equals("Login")){*/

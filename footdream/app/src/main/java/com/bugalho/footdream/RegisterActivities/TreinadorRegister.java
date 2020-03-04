@@ -171,15 +171,32 @@ public class TreinadorRegister extends AppCompatActivity implements AdapterView.
 
                 if (rowsAffected > 0) {
                     Log.d("user_add", "utilizador adicionado com sucesso");
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("tipo", UserType.Treinador);
-                    intent.putExtra("nome", nome.getText().toString());
-                    intent.putExtra("clube",clubeNome);
-                    intent.putExtra("descricao", " ");
-                    startActivity(intent);
                     finish();
                 } else {
                     email.setError("Este email já se encontra registado");
+                }
+            }
+        });
+        DatabaseBuilder getId = new DatabaseBuilder(QueryMode.READ,"SELECT idTreinador FROM Treinadores WHERE nome_treinador='" + nome.getText() + "'");
+        getId.execute(new OnDatabaseBuilderQueryExecuteListener() {
+            @Override
+            public void OnGetResultHandler(Object rs){
+                ResultSet resultSet = (ResultSet) rs;
+
+                while(true) {
+                    try {
+                        if (resultSet.next()) {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("tipo",UserType.Treinador);
+                            intent.putExtra("id",resultSet.getInt("idTreinador"));
+                            startActivity(intent);
+                            finish();
+
+                            break;
+                        }else break;
+                    }catch (SQLException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });
