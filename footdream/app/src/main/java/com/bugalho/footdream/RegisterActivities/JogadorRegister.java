@@ -20,6 +20,7 @@ import com.bugalho.footdream.Helper.QueryMode;
 import com.bugalho.footdream.LoadingDialog;
 import com.bugalho.footdream.MainActivity;
 import com.bugalho.footdream.R;
+import com.bugalho.footdream.UserClass.User;
 import com.bugalho.footdream.UserClass.UserType;
 
 import java.sql.ResultSet;
@@ -41,6 +42,7 @@ public class JogadorRegister extends AppCompatActivity implements AdapterView.On
     private EditText divisao;
     private EditText escalao;
     private EditText posicao;
+    private String clubeNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +134,7 @@ public class JogadorRegister extends AppCompatActivity implements AdapterView.On
                                 try {
                                     if(resultSet.next()){
                                         clubeId = resultSet.getInt("idClube");
+                                        clubeNome = resultSet.getString("nome_clube");
                                         insertNewPlayer();
                                         break;
                                     }else{
@@ -175,14 +178,35 @@ public class JogadorRegister extends AppCompatActivity implements AdapterView.On
 
                 if (rowsAffected > 0) {
                     Log.d("user_add", "utilizador adicionado com sucesso");
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("tipo", UserType.Jogador);
-                    intent.putExtra("nome", nome.getText().toString());
-                    intent.putExtra("descricao", " ");
-                    startActivity(intent);
-                    finish();
+
                 } else {
                     email.setError("Este email já se encontra registado");
+                }
+            }
+        });
+
+        DatabaseBuilder getId = new DatabaseBuilder(QueryMode.READ,"SELECT idJogador FROM Jogadores WHERE nome_jogador='" + nome.getText() + "'");
+
+        getId.execute(new OnDatabaseBuilderQueryExecuteListener() {
+            @Override
+            public void OnGetResultHandler(Object rs){
+                ResultSet resultSet = (ResultSet) rs;
+
+                while(true) {
+                    try {
+                        if (resultSet.next()) {
+                            clubeId = resultSet.getInt("idJogador");
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("tipo",UserType.Jogador);
+                            intent.putExtra("id",clubeId);
+                            startActivity(intent);
+                            finish();
+
+                            break;
+                        }else break;
+                    }catch (SQLException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });

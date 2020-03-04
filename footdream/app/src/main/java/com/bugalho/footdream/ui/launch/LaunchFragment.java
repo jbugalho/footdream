@@ -50,6 +50,7 @@ public class LaunchFragment extends Fragment implements AdapterView.OnItemSelect
     private LoadingDialog loadingDialog;
     private Spinner spinner;
     private String selecionado;
+    private boolean registo;
 
     @Nullable
     @Override
@@ -116,8 +117,8 @@ public class LaunchFragment extends Fragment implements AdapterView.OnItemSelect
                             Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("tipo",UserType.Clube);
-                            intent.putExtra("nome", resultSet.getString("nome_clube"));
-                            intent.putExtra("descricao", resultSet.getString("descricao"));
+                            intent.putExtra("id", resultSet.getInt("idClube"));
+                            intent.putExtra("tipoLogin","Login");
 
                             startActivity(intent);
                             getActivity().finish();
@@ -157,8 +158,9 @@ public class LaunchFragment extends Fragment implements AdapterView.OnItemSelect
                             Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("tipo",UserType.Jogador);
-                            intent.putExtra("nome", resultSet.getString("nome_jogador"));
-                            intent.putExtra("descricao", resultSet.getString("descricao"));
+                            intent.putExtra("id", resultSet.getInt("idJogador"));
+                            intent.putExtra("tipoLogin","Login");
+                            loadingDialog.dismissDialog();
 
                             startActivity(intent);
                             getActivity().finish();
@@ -198,9 +200,8 @@ public class LaunchFragment extends Fragment implements AdapterView.OnItemSelect
                             Log.d("login", "OnGetResultHandler: " + resultSet.getString("password"));
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("tipo",UserType.Treinador);
-                            intent.putExtra("nome", resultSet.getString("nome_treinador"));
-                            intent.putExtra("descricao", resultSet.getString("descricao"));
-
+                            intent.putExtra("id", resultSet.getInt("idTreinador"));
+                            intent.putExtra("tipoLogin","Login");
                             startActivity(intent);
                             getActivity().finish();
                             break;

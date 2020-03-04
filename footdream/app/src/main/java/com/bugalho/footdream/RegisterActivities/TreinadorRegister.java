@@ -38,6 +38,7 @@ public class TreinadorRegister extends AppCompatActivity implements AdapterView.
     private boolean errorEmail;
     private Spinner spinner;
     private int clubeId;
+    private String clubeNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +127,7 @@ public class TreinadorRegister extends AppCompatActivity implements AdapterView.
                                 try {
                                     if(resultSet.next()){
                                         clubeId = resultSet.getInt("idClube");
+                                        clubeNome = resultSet.getString("nome_clube");
                                         insertNewTrainer();
                                         break;
                                     }else{
@@ -172,6 +174,7 @@ public class TreinadorRegister extends AppCompatActivity implements AdapterView.
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("tipo", UserType.Treinador);
                     intent.putExtra("nome", nome.getText().toString());
+                    intent.putExtra("clube",clubeNome);
                     intent.putExtra("descricao", " ");
                     startActivity(intent);
                     finish();

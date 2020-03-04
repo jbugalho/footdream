@@ -30,7 +30,7 @@ public class User {
     private String divisao;
 
     //Jogador
-    public User(UserType userType,String nome,String escalao,String posicao, String divisao,String cube, String descricao){
+    public User(UserType userType,String nome,String escalao,String posicao, String divisao,String clube, String descricao){
         this.userType = userType;
         this.nome = nome;
         this.descricao = descricao;

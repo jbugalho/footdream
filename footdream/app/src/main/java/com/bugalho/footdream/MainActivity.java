@@ -3,11 +3,15 @@ package com.bugalho.footdream;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bugalho.footdream.Helper.DatabaseBuilder;
+import com.bugalho.footdream.Helper.OnDatabaseBuilderQueryExecuteListener;
+import com.bugalho.footdream.Helper.QueryMode;
 import com.bugalho.footdream.UserClass.User;
 import com.bugalho.footdream.UserClass.UserType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -26,19 +30,26 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.xml.transform.Result;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    public static User userLogado;
+    //public static User userLogado;
+    public static Bundle bundle;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bundle bundle = getIntent().getExtras();
 
-        userLogado = new User((UserType)bundle.get("tipo"),bundle.getString("nome"),bundle.getString("descricao"));
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
