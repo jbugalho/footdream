@@ -40,6 +40,10 @@ public class User {
         this.clube = clube;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
     public Enum getUserType() {
         return userType;
     }

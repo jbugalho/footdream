@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,61 +30,18 @@ public class GalleryFragment extends Fragment {
     private GalleryViewModel galleryViewModel;
     public static User userLogado;
     private Bundle bundle;
-    private EditText teste;
-    private EditText teste1;
-
-
-
+    private TextView nome;
+    private TextView escalao;
+    private TextView posicao;
+    private TextView divisao;
+    private TextView clube_nome;
+    private TextView descricao;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-
-
-/*
-        if(MainActivity.bundle != null){
-            switch (MainActivity.bundle.get("tipo").toString()){
-                case "Clube":
-                    MainActivity.userLogado = new User((UserType)MainActivity.bundle.get("tipo"),MainActivity.bundle.getString("nome"),MainActivity.bundle.getString("descricao"));
-                    break;
-
-                case "Treinador":
-                    MainActivity.userLogado = new User((UserType)MainActivity.bundle.get("tipo"),MainActivity.bundle.getString("nome"),MainActivity.bundle.getString("clube"),MainActivity.bundle.getString("descricao"));
-                    break;
-
-                case "Jogador":
-                    MainActivity.userLogado = new User((UserType)MainActivity.bundle.get("tipo"),MainActivity.bundle.getString("nome"),MainActivity.bundle.getString("escalao"),MainActivity.bundle.getString("posicao"),MainActivity.bundle.getString("divisao"),
-                            MainActivity.bundle.getString("clube"),MainActivity.bundle.getString("descricao"));
-                    break;
-                default:
-                    break;
-            }
-        }else{ if(MainActivity.bundle == null) Log.d("teste", "onCreateView:teste "); /*if(MainActivity.bundle.getString("tipoLogin") == "Login"){
-            switch(MainActivity.bundle.getString("tipo").toString()){
-                case "Clube":
-                    loginClube();
-                    break;
-
-                case "Treinador":
-                    loginTreinador();
-                    break;
-
-                case "Jogador":
-                    Log.d("jogador", "onCreate: entra no jogador");
-                    loginJogador();
-                    break;
-                default:
-                    break;
-            }
-        }*/
-
-        /*EditText teste = root.findViewById(R.id.nomeClube);
-        EditText teste1 = root.findViewById(R.id.emailInsert);
-        teste.setText(MainActivity.userLogado.getNome());
-        teste1.setText(MainActivity.userLogado.getUserType().toString());*/
-
         bundle = getActivity().getIntent().getExtras();
 
             switch((UserType)bundle.get("tipo")){
@@ -104,8 +62,12 @@ public class GalleryFragment extends Fragment {
             }
 
 
-        teste = root.findViewById(R.id.nomeClube);
-        teste1 = root.findViewById(R.id.emailInsert);
+        nome = root.findViewById(R.id.nome);
+        escalao = root.findViewById(R.id.escalao);
+        posicao = root.findViewById(R.id.posicao);
+        divisao = root.findViewById(R.id.divisao);
+        clube_nome = root.findViewById(R.id.clube_nome);
+        descricao = root.findViewById(R.id.descricao);
 
         return root;
 
@@ -126,7 +88,12 @@ public class GalleryFragment extends Fragment {
                     try {
                         if (resultSet.next()) {
                             userLogado = new User(UserType.Clube,resultSet.getString("nome_clube"),resultSet.getString("descricao"));
-                            teste.setText(userLogado.getNome());
+                            nome.setText(userLogado.getNome());
+                            escalao.setVisibility(View.INVISIBLE);
+                            posicao.setVisibility(View.INVISIBLE);
+                            divisao.setVisibility(View.INVISIBLE);
+                            clube_nome.setVisibility(View.INVISIBLE);
+                            descricao.setText("");
 
                             break;
                         }else break;
@@ -153,8 +120,12 @@ public class GalleryFragment extends Fragment {
                     try {
                         if (resultSet.next()) {
                             userLogado = new User(UserType.Treinador,resultSet.getString("nome_treinador"),resultSet.getString("nome_clube"),resultSet.getString("descricao"));
-                            teste.setText(userLogado.getNome());
-                            teste1.setText(userLogado.getClube());
+                            nome.setText(userLogado.getNome());
+                            clube_nome.setText(userLogado.getClube());
+                            descricao.setText(userLogado.getDescricao());
+                            escalao.setVisibility(View.INVISIBLE);
+                            posicao.setVisibility(View.INVISIBLE);
+                            divisao.setVisibility(View.INVISIBLE);
                             break;
                         }else break;
                     }catch (SQLException e){
@@ -169,10 +140,10 @@ public class GalleryFragment extends Fragment {
     private void loginJogador() {
         Log.d("teste", "loginJogador: teste");
 
-        DatabaseBuilder checkTreinador = new DatabaseBuilder(QueryMode.READ,"SELECT *,nome_clube FROM `Jogadores`,`Clubes` WHERE Jogadores.idJogador=" +
+        DatabaseBuilder checkJogador = new DatabaseBuilder(QueryMode.READ,"SELECT *,nome_clube FROM `Jogadores`,`Clubes` WHERE Jogadores.idJogador=" +
                 bundle.getInt("id") +  " AND Jogadores.Clubes_idClube=Clubes.idClube");
 
-        checkTreinador.execute(new OnDatabaseBuilderQueryExecuteListener() {
+        checkJogador.execute(new OnDatabaseBuilderQueryExecuteListener() {
             @Override
             public void OnGetResultHandler(Object rs){
                 Log.d("teste", "OnGetResultHandler: teste2");
@@ -183,8 +154,12 @@ public class GalleryFragment extends Fragment {
                         if (resultSet.next()) {
                             userLogado = new User(UserType.Jogador,resultSet.getString("nome_jogador"),resultSet.getString("escalao"),resultSet.getString("posicao"),resultSet.getString("divisao"),
                                     resultSet.getString("nome_clube"),resultSet.getString("descricao"));
-                            teste.setText(userLogado.getNome());
-                            teste1.setText(userLogado.getUserType().toString());
+                            nome.setText(userLogado.getNome());
+                            escalao.setText(userLogado.getEscalao());
+                            posicao.setText(userLogado.getPosicao());
+                            divisao.setText(userLogado.getDivisao());
+                            clube_nome.setText(userLogado.getClube());
+                            descricao.setText(userLogado.getDescricao());
                             break;
                         }else break;
                     }catch (SQLException e){
